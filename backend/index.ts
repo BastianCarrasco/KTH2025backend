@@ -12,7 +12,7 @@ app.use(cors());
 // app.use(cors({ origin: ["http://localhost:5173", "https://tudominio.com"] }));
 
 // Endpoint /data
-app.get("/data", async (_req, res) => {
+app.get("/categorias", async (_req, res) => {
   try {
     const result = await pool.query("SELECT * FROM categorias");
     if (result.rows.length === 0) {
@@ -45,6 +45,20 @@ app.get("/respuestas", async (_req, res) => {
     const result = await pool.query("SELECT * FROM respuestas");
     if (result.rows.length === 0) {
       return res.status(404).send("No hay respuestas en la base de datos");
+    }
+    res.json({ success: true, data: result.rows });
+  } catch (error) {
+    console.error("Error al conectar:", error);
+    res.status(500).send("Error al conectar con la base de datos");
+  }
+});
+
+// Endpoint /preguntas
+app.get("/preguntas", async (_req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM preguntas");
+    if (result.rows.length === 0) {
+      return res.status(404).send("No hay usuarios en la base de datos");
     }
     res.json({ success: true, data: result.rows });
   } catch (error) {
