@@ -4,8 +4,8 @@ import cors from "cors"; // Importa el paquete CORS
 import { getAllAlternativas,createAlternativa,deleteAlternativa,updateAlternativa } from "./queries/alternativas";
 
 import { getAllCategorias } from "./queries/categorias";
-import { getAllUsuarios } from "./queries/usuarios";
-import { getAllRespuestas } from "./queries/respuestas";
+import { getAllUsuarios, createUsuario } from "./queries/usuarios";
+import { createRespuesta, getAllRespuestas } from "./queries/respuestas";
 import {   getAllPreguntas, 
   getPreguntaById,
   createPregunta, 
@@ -40,7 +40,7 @@ app.get("/usuarios", async (_req, res) => {
   try {
     const categorias = await getAllUsuarios(); // Usando la función importada
     if (categorias.length === 0) {
-      return res.status(404).send("No hay categorías en la base de datos");
+      return res.status(404).send("No hay Usuairios en la base de datos");
     }
     res.json({ success: true, data: categorias });
   } catch (error) {
@@ -49,18 +49,63 @@ app.get("/usuarios", async (_req, res) => {
   }
 });
 
+app.post("/usuarios", express.json(), async (req, res) => {
+  try {
+    const { nombre, email, clave } = req.body;
+    if (!nombre || !email || clave === undefined) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Faltan campos requeridos" 
+      });
+    }
+    const nuevaPregunta = await createUsuario(nombre, email, clave);
+    res.status(201).json({ success: true, data: nuevaPregunta });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ success: false, message: "error al crear user" });
+  }
+});
+
 
 // Endpoint /respuestas
+// index.ts o tu archivo de rutas
 app.get("/respuestas", async (_req, res) => {
   try {
-    const result = await getAllRespuestas(); // Usando la función importada
-    if (result.rows.length === 0) {
-      return res.status(404).send("No hay respuestas en la base de datos");
-    }
-    res.json({ success: true, data: result.rows });
+    const respuestas = await getAllRespuestas(); // Esto ahora recibe directamente el array
+    
+    // Respuesta exitosa incluso si el array está vacío
+    res.status(200).json({ 
+      success: true, 
+      data: respuestas,
+      count: respuestas.length
+    });
+    
   } catch (error) {
-    console.error("Error al conectar:", error);
-    res.status(500).send("Error al conectar con la base de datos");
+    console.error("Error en GET /respuestas:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error al obtener las respuestas",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+ //id_user, claves_resp, crl, trl, team, brl, frl, iprl, fecha
+
+app.post("/respuestas", express.json(), async (req, res) => {
+  try {
+    const { id_user, claves_resp, crl, trl, team, brl, frl, iprl} = req.body;
+    if (!id_user || !claves_resp|| !crl || !trl || !team || !brl || !frl || !iprl === undefined) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Faltan campos requeridos" 
+      });
+    }
+    const nuevaresp = await createRespuesta(id_user, claves_resp, crl, trl, team, brl, frl, iprl);
+    res.status(201).json({ success: true, data: nuevaresp });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ success: false, message: "Error al crear RESP" });
   }
 });
 
@@ -192,7 +237,7 @@ app.get("/alternativas", async (_req, res) => {
   try {
     const categorias = await getAllAlternativas(); // Usando la función importada
     if (categorias.length === 0) {
-      return res.status(404).send("No hay categorías en la base de datos");
+      return res.status(404).send("No hay alternativas en la base de datos");
     }
     res.json({ success: true, data: categorias });
   } catch (error) {
