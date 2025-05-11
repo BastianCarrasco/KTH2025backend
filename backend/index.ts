@@ -248,25 +248,20 @@ app.get("/alternativas/pregunta/:id_pregunta", async (req, res) => {
 });
 
 // Endpoint POST /alternativas - Crear nueva alternativa
-app.post("/alternativas", async (req, res) => {
+app.post("/alternativas", express.json(), async (req, res) => {
   try {
     const { texto, id_pregunta } = req.body;
-    
-    if (!texto || !id_pregunta) {
+    if (!texto || !id_pregunta === undefined) {
       return res.status(400).json({ 
         success: false, 
-        message: "Texto e id_pregunta son campos requeridos" 
+        message: "Faltan campos requeridos" 
       });
     }
-    
-    const nuevaAlternativa = await createAlternativa(texto, id_pregunta);
-    res.status(201).json({ success: true, data: nuevaAlternativa });
+    const nuevaalternativa = await createAlternativa(texto, id_pregunta);
+    res.status(201).json({ success: true, data: nuevaalternativa });
   } catch (error) {
-    console.error("Error al crear alternativa:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Error al crear la alternativa" 
-    });
+    console.error("Error:", error);
+    res.status(500).json({ success: false, message: "Error al crear ALTERNATIVA" });
   }
 });
 
