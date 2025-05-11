@@ -2,7 +2,7 @@ import express from "express";
 import { pool } from "./db";
 import cors from "cors"; // Importa el paquete CORS
 import { getAllAlternativas,createAlternativa,deleteAlternativa,updateAlternativa } from "./queries/alternativas";
-import { getNiveles } from "./queries/funciones";
+import { getNiveles, getHistoria } from "./queries/funciones";
 import { getAllCategorias } from "./queries/categorias";
 import { getAllUsuarios, createUsuario } from "./queries/usuarios";
 import { createRespuesta, getAllRespuestas } from "./queries/respuestas";
@@ -20,6 +20,19 @@ app.use(cors());
 
 
 //FUNCIONES
+
+app.get("/historia", async (_req, res) => {
+  try {
+    const categorias = await getHistoria(); // Usando la función importada
+    if (categorias.length === 0) {
+      return res.status(404).send("No hay DATOS");
+    }
+    res.json({ success: true, data: categorias });
+  } catch (error) {
+    console.error("Error al No hay DATOS:", error);
+    res.status(500).send("Error No hay DATOS");
+  }
+});
 
 app.get("/niveles", async (_req, res) => {
   try {

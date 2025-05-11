@@ -27,3 +27,9 @@ export const getNiveles = async () => {
     throw new Error('Error al obtener los niveles de preguntas');
   }
 };
+
+
+export const getHistoria = async () => {
+  const result = await pool.query("select * from usuario join respuestas on respuestas.id_user = usuario.id");
+  return result.rows;
+};
