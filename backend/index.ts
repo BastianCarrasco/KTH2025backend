@@ -1,6 +1,7 @@
 import express from "express";
 import { pool } from "./db";
 import cors from "cors"; // Importa el paquete CORS
+import { getAllAlternativas } from "./queries/alternativas";
 
 import { getAllCategorias } from "./queries/categorias";
 import { getAllUsuarios } from "./queries/usuarios";
@@ -182,6 +183,21 @@ app.delete("/preguntas/:id", async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ success: false, message: "Error al eliminar pregunta" });
+  }
+});
+
+
+// Endpoint /alternativas
+app.get("/alternativas", async (_req, res) => {
+  try {
+    const categorias = await getAllAlternativas(); // Usando la función importada
+    if (categorias.length === 0) {
+      return res.status(404).send("No hay categorías en la base de datos");
+    }
+    res.json({ success: true, data: categorias });
+  } catch (error) {
+    console.error("Error al obtener categorías:", error);
+    res.status(500).send("Error al conectar con la base de datos");
   }
 });
 
