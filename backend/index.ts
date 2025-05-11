@@ -2,7 +2,7 @@ import express from "express";
 import { pool } from "./db";
 import cors from "cors"; // Importa el paquete CORS
 import { getAllAlternativas,createAlternativa,deleteAlternativa,updateAlternativa } from "./queries/alternativas";
-
+import { getNiveles } from "./queries/funciones";
 import { getAllCategorias } from "./queries/categorias";
 import { getAllUsuarios, createUsuario } from "./queries/usuarios";
 import { createRespuesta, getAllRespuestas } from "./queries/respuestas";
@@ -17,6 +17,22 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware CORS (configuración básica para permitir todos los orígenes)
 app.use(cors()); 
+
+
+//FUNCIONES
+
+app.get("/niveles", async (_req, res) => {
+  try {
+    const categorias = await getNiveles(); // Usando la función importada
+    if (categorias.length === 0) {
+      return res.status(404).send("No hay DATOS");
+    }
+    res.json({ success: true, data: categorias });
+  } catch (error) {
+    console.error("Error al No hay DATOS:", error);
+    res.status(500).send("Error No hay DATOS");
+  }
+});
 
 // Si necesitas configuración personalizada (ej: solo permitir ciertos dominios):
 // app.use(cors({ origin: ["http://localhost:5173", "https://tudominio.com"] }));
