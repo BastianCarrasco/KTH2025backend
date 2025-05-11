@@ -1,7 +1,7 @@
 import express from "express";
 import { pool } from "./db";
 import cors from "cors"; // Importa el paquete CORS
-import { getAllAlternativas } from "./queries/alternativas";
+import { getAllAlternativas,createAlternativa,deleteAlternativa,updateAlternativa } from "./queries/alternativas";
 
 import { getAllCategorias } from "./queries/categorias";
 import { getAllUsuarios } from "./queries/usuarios";
@@ -198,6 +198,134 @@ app.get("/alternativas", async (_req, res) => {
   } catch (error) {
     console.error("Error al obtener categorías:", error);
     res.status(500).send("Error al conectar con la base de datos");
+  }
+});
+
+// Endpoint GET /alternativas/:id - Obtener alternativa por ID
+app.get("/alternativas/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const alternativa = await getAlternativaById(id);
+    
+    if (!alternativa) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Alternativa no encontrada" 
+      });
+    }
+    
+    res.json({ success: true, data: alternativa });
+  } catch (error) {
+    console.error("Error al obtener alternativa:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error al conectar con la base de datos" 
+    });
+  }
+});
+
+// Endpoint GET /alternativas/pregunta/:id_pregunta - Obtener alternativas por pregunta
+app.get("/alternativas/pregunta/:id_pregunta", async (req, res) => {
+  try {
+    const id_pregunta = parseInt(req.params.id_pregunta);
+    const alternativas = await getAlternativasByPregunta(id_pregunta);
+    
+    if (alternativas.length === 0) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "No se encontraron alternativas para esta pregunta" 
+      });
+    }
+    
+    res.json({ success: true, data: alternativas });
+  } catch (error) {
+    console.error("Error al obtener alternativas por pregunta:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error al conectar con la base de datos" 
+    });
+  }
+});
+
+// Endpoint POST /alternativas - Crear nueva alternativa
+app.post("/alternativas", async (req, res) => {
+  try {
+    const { texto, id_pregunta } = req.body;
+    
+    if (!texto || !id_pregunta) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Texto e id_pregunta son campos requeridos" 
+      });
+    }
+    
+    const nuevaAlternativa = await createAlternativa(texto, id_pregunta);
+    res.status(201).json({ success: true, data: nuevaAlternativa });
+  } catch (error) {
+    console.error("Error al crear alternativa:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error al crear la alternativa" 
+    });
+  }
+});
+
+// Endpoint PUT /alternativas/:id - Actualizar alternativa
+app.put("/alternativas/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { texto, id_pregunta } = req.body;
+    
+    if (!texto || !id_pregunta) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Texto e id_pregunta son campos requeridos" 
+      });
+    }
+    
+    const alternativaActualizada = await updateAlternativa(id, texto, id_pregunta);
+    
+    if (!alternativaActualizada) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Alternativa no encontrada" 
+      });
+    }
+    
+    res.json({ success: true, data: alternativaActualizada });
+  } catch (error) {
+    console.error("Error al actualizar alternativa:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error al actualizar la alternativa" 
+    });
+  }
+});
+
+// Endpoint DELETE /alternativas/:id - Eliminar alternativa
+app.delete("/alternativas/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const alternativaEliminada = await deleteAlternativa(id);
+    
+    if (!alternativaEliminada) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Alternativa no encontrada" 
+      });
+    }
+    
+    res.json({ 
+      success: true, 
+      message: "Alternativa eliminada correctamente",
+      data: alternativaEliminada 
+    });
+  } catch (error) {
+    console.error("Error al eliminar alternativa:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error al eliminar la alternativa" 
+    });
   }
 });
 
