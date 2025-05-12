@@ -123,18 +123,40 @@ app.get("/respuestas", async (_req, res) => {
 
 app.post("/respuestas", express.json(), async (req, res) => {
   try {
-    const { id_user, claves_resp, crl, trl, team, brl, frl, iprl} = req.body;
-    if (!id_user || !claves_resp|| !crl || !trl || !team || !brl || !frl || !iprl === undefined) {
+    const { id_user, claves_resp, crl, trl, team, brl, frl, iprl } = req.body;
+
+    // Validación corregida que permite 0 pero no undefined/null
+    if (
+      id_user === undefined || id_user === null ||
+      claves_resp === undefined || claves_resp === null ||
+      crl === undefined || crl === null ||
+      trl === undefined || trl === null ||
+      team === undefined || team === null ||
+      brl === undefined || brl === null ||
+      frl === undefined || frl === null ||
+      iprl === undefined || iprl === null
+    ) {
       return res.status(400).json({ 
         success: false, 
-        message: "Faltan campos requeridos" 
+        message: "Faltan campos requeridos (se permiten ceros)" 
       });
     }
-    const nuevaresp = await createRespuesta(id_user, claves_resp, crl, trl, team, brl, frl, iprl);
+
+    const nuevaresp = await createRespuesta(
+      id_user, 
+      claves_resp, 
+      crl, 
+      trl, 
+      team, 
+      brl, 
+      frl, 
+      iprl
+    );
+    
     res.status(201).json({ success: true, data: nuevaresp });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ success: false, message: "Error al crear RESP" });
+    res.status(500).json({ success: false, message: "Error al crear respuesta" });
   }
 });
 
