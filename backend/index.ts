@@ -1,13 +1,6 @@
 import express from "express";
 
 import cors from "cors"; // Importa el paquete CORS
-import {
-  getAllAlternativas,
-  createAlternativa,
-  deleteAlternativa,
-  updateAlternativa,
-} from "./queries/alternativas";
-import { createRespuesta, getAllRespuestas } from "./queries/respuestas";
 
 import Funcionescontrol from "./CONSULTAS/Funciones"
 import Preguntas from "./CONSULTAS/Preguntas";
@@ -15,6 +8,7 @@ import Categoty from "./CONSULTAS/Category"
 import Usuarios from "./CONSULTAS/Usuarios";
 import Respuestas from "./CONSULTAS/Respuestas";
 import Alternativas from "./CONSULTAS/Alternativas";
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -41,19 +35,11 @@ Alternativas.editar_alternativa(app);
 Alternativas.eliminar_alternativa(app);
 Alternativas.todas_las_alternativas(app); 
 
+
+
+
 // Si necesitas configuración personalizada (ej: solo permitir ciertos dominios):
 // app.use(cors({ origin: ["http://localhost:5173", "https://tudominio.com"] }));
-
-
-
-// Endpoint /usuarios
-
-
-// Endpoint /respuestas
-// index.ts o tu archivo de rutas
-
-
-
 // Iniciar el servidor con Bun
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT} (usando Bun)`);
