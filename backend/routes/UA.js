@@ -11,3 +11,7 @@ const UAdata = (app) => {
     }
   });
 };
+
+export default {
+  UAdata
+};

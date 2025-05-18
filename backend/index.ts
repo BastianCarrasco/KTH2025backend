@@ -60,7 +60,7 @@ Proyectos.crear_Proyecto(app);
 Proyectos.get_Proyectos(app);
 
 //Unidad Academica
-UA(app);
+UA.UAdata(app);
 
 
 
