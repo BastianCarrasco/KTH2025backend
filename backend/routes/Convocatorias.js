@@ -58,7 +58,7 @@ const crearConvocatoria = (app) => {
   });
 };
 
-const getConvocatorias = (app) => {
+const ALLConvocatorias = (app) => {
   app.get("/convocatorias", async (req, res) => {
     try {
       const preguntas = await getConvocatorias();
@@ -75,4 +75,4 @@ const getConvocatorias = (app) => {
 
 
 
-export default { TipoConvocatorias, InstConvocatorias, crearConvocatoria, getConvocatorias };
+export default { TipoConvocatorias, InstConvocatorias, crearConvocatoria, ALLConvocatorias };
