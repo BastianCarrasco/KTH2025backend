@@ -14,14 +14,14 @@ const crear_Proyecto = (app) => {
         });
       }
       
-      const nuevoProyecto = await insertProyecto(
+      const nuevoProyecto = await insertProyecto({
         nombre, 
         monto, 
         fecha_postulacion, 
         comentarios, 
         unidad, 
         id_convocatoria
-      );
+      });
       
       res.status(201).json({ 
         success: true, 
