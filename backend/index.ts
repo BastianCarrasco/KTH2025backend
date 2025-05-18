@@ -10,6 +10,7 @@ import Respuestas from "./routes/Respuestas";
 import Alternativas from "./routes/Alternativas";
 import Convocatorias from "./routes/Convocatorias";
 import Proyectos from "./routes/Proyectos";
+import UA from "./routes/UA";
 
 
 const app = express();
@@ -58,6 +59,8 @@ Convocatorias.ALLConvocatorias(app);
 Proyectos.crear_Proyecto(app);
 Proyectos.get_Proyectos(app);
 
+//Unidad Academica
+UA(app);
 
 
 
