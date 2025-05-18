@@ -2,6 +2,7 @@ import {
   getTipoConvocatorias,
   getInstConvocatorias,
   insertConvocatoria,
+  getConvocatorias
 } from "../queries/convocatorias";
 
 const TipoConvocatorias = (app) => {
@@ -57,4 +58,21 @@ const crearConvocatoria = (app) => {
   });
 };
 
-export default { TipoConvocatorias, InstConvocatorias, crearConvocatoria };
+const getConvocatorias = (app) => {
+  app.get("/convocatorias", async (req, res) => {
+    try {
+      const preguntas = await getConvocatorias();
+      res.json({ success: true, data: preguntas });
+    } catch (error) {
+      console.error("Error:", error);
+      res
+        .status(500)
+        .json({ success: false, message: "Error al obtener preguntas" });
+    }
+  });
+};
+
+
+
+
+export default { TipoConvocatorias, InstConvocatorias, crearConvocatoria, getConvocatorias };

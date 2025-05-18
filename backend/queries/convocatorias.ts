@@ -19,3 +19,20 @@ export const insertConvocatoria = async ({nombre, tipo, institucion}) => {
     return result.rows[0];
 }
 
+// For getting convocatorias with related data
+export const getConvocatorias = async () => {
+  const query = `
+    SELECT
+      C.id_convocatoria AS id,
+      C.nombre AS convocatoria,
+      TC.nombre AS tipo,
+      IC.nombre AS institucion
+    FROM
+      CONVOCATORIA AS C
+      JOIN TIPO_CONVO AS TC ON C.tipo = TC.id
+      JOIN INST_CONVO AS IC ON C.institucion = IC.id
+    ORDER BY C.nombre ASC
+  `;
+  const result = await pool.query(query);
+  return result.rows;
+};

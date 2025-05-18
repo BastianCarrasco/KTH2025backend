@@ -52,6 +52,7 @@ Alternativas.todas_las_alternativas(app);
 Convocatorias.InstConvocatorias(app);
 Convocatorias.TipoConvocatorias(app);
 Convocatorias.crearConvocatoria(app);
+Convocatorias.getConvocatorias(app);
 
 //Proyectos
 Proyectos.crear_Proyecto(app);
