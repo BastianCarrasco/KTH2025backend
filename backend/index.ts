@@ -9,7 +9,7 @@ import Usuarios from "./routes/Usuarios";
 import Respuestas from "./routes/Respuestas";
 import Alternativas from "./routes/Alternativas";
 import Convocatorias from "./routes/Convocatorias";
-import Proyectos from "./routes/Proyectos";
+//import Proyectos from "./routes/Proyectos";
 
 
 const app = express();
@@ -54,7 +54,7 @@ Convocatorias.TipoConvocatorias(app);
 Convocatorias.crearConvocatoria(app);
 
 //Proyectos
-Proyectos(app);
+//Proyectos(app);
 
 
 
