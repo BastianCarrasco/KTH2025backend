@@ -12,6 +12,7 @@ import Convocatorias from "./routes/Convocatorias";
 import Proyectos from "./routes/Proyectos";
 import UA from "./routes/UA";
 import Link from "./routes/Link";
+import Profes from "./routes/Academicos";
 
 
 const app = express();
@@ -66,6 +67,10 @@ UA.UAdata(app);
 //Link
 Link.Links(app);
 Link.crear_ProyectoAcademico(app);
+
+//Academicos
+
+Profes.Academicos(app);
 
 
 
