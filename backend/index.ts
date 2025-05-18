@@ -11,6 +11,7 @@ import Alternativas from "./routes/Alternativas";
 import Convocatorias from "./routes/Convocatorias";
 import Proyectos from "./routes/Proyectos";
 import UA from "./routes/UA";
+import Link from "./routes/Link";
 
 
 const app = express();
@@ -61,6 +62,10 @@ Proyectos.get_Proyectos(app);
 
 //Unidad Academica
 UA.UAdata(app);
+
+//Link
+Link.Links(app);
+Link.crear_ProyectoAcademico(app);
 
 
 
