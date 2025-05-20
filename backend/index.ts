@@ -13,6 +13,8 @@ import Proyectos from "./routes/Proyectos";
 import UA from "./routes/UA";
 import Link from "./routes/Link";
 import Profes from "./routes/Academicos";
+import Cuestionario from "./routes/Cuestionario";
+import respuestasQuest from "./routes/respuestasQuest";
 
 
 const app = express();
@@ -71,6 +73,21 @@ Link.crear_ProyectoAcademico(app);
 //Academicos
 
 Profes.Academicos(app);
+
+//Cuestionario
+Cuestionario.getAllCuestionarios(app);
+Cuestionario.createNewCuestionario(app);
+Cuestionario.deleteExistingCuestionario(app);
+Cuestionario.updateExistingCuestionario(app);
+
+//Respuestas Cuestionario
+respuestasQuest.createNewRespuestaCuestionario(app);
+respuestasQuest.deleteExistingRespuestaCuestionario(app);
+respuestasQuest.getAllRespuestasCuestionarios(app);
+respuestasQuest.getRespuestaByIdHandler(app);
+respuestasQuest.updateExistingRespuestaCuestionario(app);
+
+
 
 
 
