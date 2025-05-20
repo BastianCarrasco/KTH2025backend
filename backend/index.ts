@@ -15,6 +15,7 @@ import Link from "./routes/Link";
 import Profes from "./routes/Academicos";
 import Cuestionario from "./routes/Cuestionario";
 import respuestasQuest from "./routes/respuestasQuest";
+import fondos from "./routes/fondos";
 
 
 const app = express();
@@ -87,7 +88,8 @@ respuestasQuest.getAllRespuestasCuestionarios(app);
 respuestasQuest.getRespuestaByIdHandler(app);
 respuestasQuest.updateExistingRespuestaCuestionario(app);
 
-
+// Fondos
+fondos.fondos(app);
 
 
 
