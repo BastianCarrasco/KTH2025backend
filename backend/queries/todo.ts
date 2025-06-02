@@ -4,6 +4,7 @@ export const getTODO = async () => {
   try {
     const query = `
       SELECT
+	p.ID_PROYECTO,  
 	P.NOMBRE AS NOMBRE_PROYECTO,
 
 	TEM.NOMBRE AS TEMATICA,
