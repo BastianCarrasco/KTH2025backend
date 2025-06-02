@@ -16,6 +16,7 @@ import Profes from "./routes/Academicos";
 import Cuestionario from "./routes/Cuestionario";
 import respuestasQuest from "./routes/respuestasQuest";
 import fondos from "./routes/fondos";
+import Todo from "./routes/Todo";
 
 
 const app = express();
@@ -90,6 +91,9 @@ respuestasQuest.updateExistingRespuestaCuestionario(app);
 
 // Fondos
 fondos.fondos(app);
+
+// todo
+Todo(app);
 
 
 
