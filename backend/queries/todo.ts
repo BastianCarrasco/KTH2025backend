@@ -4,37 +4,28 @@ export const getTODO = async () => {
   try {
     const query = `
       SELECT
-	P.ID_PROYECTO,
-	P.NOMBRE AS NOMBRE_PROYECTO,
-
-	TEM.NOMBRE AS TEMATICA,
-	ES.TIPO AS ESTATUS,
-
-	
-	TA.TIPO as Tipo_apoyo,
-	AP.DETALLE AS DETALLE_APOYO,
+	P.NOMBRE,
 	P.MONTO,
-	
-	AC.NOMBRE as academico,
-	UA.NOMBRE as unidad_academica,
-	CONV.NOMBRE AS CON_NOMBRE,
-	TC.NOMBRE as tipo_convocatoria,
-	IC.NOMBRE as  institucion_convocatoria,
 	P.FECHA_POSTULACION,
 	P.COMENTARIOS,
-	ayp.jefe
+	U.NOMBRE AS UNIDAD,
+	CONVO.NOMBRE AS CONVO_NOMBRE,
+	TC.NOMBRE as tipo_convo,
+	IC.NOMBRE as inst_convo,
+	tm.nombre as tematica,
+	tp.tipo as tipo_apoyo,
+	ap.detalle,
+	es.tipo
 FROM
 	PROYECTO AS P
-	JOIN APOYO AS AP ON AP.ID_APOYO = P.ID_APOYO
-	JOIN TIPO_APOYO AS TA ON TA.ID_TIPO_APOYO = P.ID_APOYO
-	JOIN ESTATUS AS ES ON ES.ID_ESTATUS = P.ID_ESTATUS
-	JOIN TEMATICA AS TEM ON TEM.ID_TEMATICA = P.ID_TEMATICA
-	JOIN PROYECTOACADEMICO AS AYP ON AYP.ID_PROYECTO = P.ID_PROYECTO
-	JOIN ACADEMICO AS AC ON AC.ID_ACADEMICO = AYP.ID_ACADEMICO
-	JOIN UNIDADACADEMICA AS UA ON P.UNIDAD = UA.ID_UNIDAD
-	JOIN CONVOCATORIA AS CONV ON P.ID_CONVOCATORIA = CONV.ID_CONVOCATORIA
-	JOIN TIPO_CONVO AS TC ON TC.ID = CONV.TIPO
-	JOIN INST_CONVO AS IC ON IC.ID = CONV.INSTITUCION
+	JOIN UNIDADACADEMICA AS U ON P.UNIDAD = U.ID_UNIDAD
+	JOIN CONVOCATORIA AS CONVO ON P.ID_CONVOCATORIA = CONVO.ID_CONVOCATORIA
+	JOIN TIPO_CONVO AS TC ON TC.ID = CONVO.TIPO
+	JOIN INST_CONVO AS IC ON IC.ID = CONVO.INSTITUCION
+	join tematica as tm on tm.id_tematica = p.id_tematica
+	join apoyo as ap on  p.id_apoyo = ap.id_apoyo 
+	join tipo_apoyo as TP on TP.id_tipo_apoyo = ap.tipo
+	join estatus as Es on es.id_estatus = p.id_estatus
     `;
     
     const result = await pool.query(query);
