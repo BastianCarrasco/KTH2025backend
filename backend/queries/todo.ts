@@ -16,7 +16,7 @@ export const getTODO = async () => {
 	TM.NOMBRE AS TEMATICA,
 	TP.TIPO AS TIPO_APOYO,
 	AP.DETALLE,
-	ES.TIPO,
+	ES.TIPO as Estatus,
 	AC.NOMBRE as ACADEMICO,
 	pya.jefe
 FROM
