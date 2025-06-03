@@ -1,18 +1,36 @@
 import { pool } from "../db";
 
 export const insertProyecto = async ({
+  id_proyecto,
   nombre, 
   monto, 
   fecha_postulacion, 
   comentarios, 
   unidad, 
-  id_convocatoria
+  id_convocatoria,
+  id_tematica,
+  id_apoyo,
+  id_estatus,
+  id_kth
 }) => {
   const result = await pool.query(
-    `INSERT INTO proyecto(
-      nombre, monto, fecha_postulacion, comentarios, unidad, id_convocatoria
-    ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-    [nombre, monto, fecha_postulacion, comentarios, unidad, id_convocatoria,]
+    `INSERT INTO public.proyecto(
+      id_proyecto, nombre, monto, fecha_postulacion, comentarios, unidad, 
+      id_convocatoria, id_tematica, id_apoyo, id_estatus, id_kth
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
+    [
+      id_proyecto, 
+      nombre, 
+      monto, 
+      fecha_postulacion, 
+      comentarios, 
+      unidad, 
+      id_convocatoria,
+      id_tematica,
+      id_apoyo,
+      id_estatus,
+      id_kth
+    ]
   );
   return result.rows[0];
 }
