@@ -21,7 +21,8 @@ export const getTODO = async () => {
 	TC.NOMBRE as tipo_convocatoria,
 	IC.NOMBRE as  institucion_convocatoria,
 	P.FECHA_POSTULACION,
-	P.COMENTARIOS
+	P.COMENTARIOS,
+	ayp.jefe
 FROM
 	PROYECTO AS P
 	JOIN APOYO AS AP ON AP.ID_APOYO = P.ID_APOYO
