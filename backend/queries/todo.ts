@@ -4,30 +4,34 @@ export const getTODO = async () => {
   try {
     const query = `
       SELECT
+	P.ID_PROYECTO,
 	P.NOMBRE,
 	P.MONTO,
 	P.FECHA_POSTULACION,
 	P.COMENTARIOS,
 	U.NOMBRE AS UNIDAD,
 	CONVO.NOMBRE AS CONVO_NOMBRE,
-	TC.NOMBRE as tipo_convo,
-	IC.NOMBRE as inst_convo,
-	tm.nombre as tematica,
-	tp.tipo as tipo_apoyo,
-	ap.detalle,
-	es.tipo
+	TC.NOMBRE AS TIPO_CONVO,
+	IC.NOMBRE AS INST_CONVO,
+	TM.NOMBRE AS TEMATICA,
+	TP.TIPO AS TIPO_APOYO,
+	AP.DETALLE,
+	ES.TIPO,
+	AC.NOMBRE,
 FROM
 	PROYECTO AS P
 	JOIN UNIDADACADEMICA AS U ON P.UNIDAD = U.ID_UNIDAD
 	JOIN CONVOCATORIA AS CONVO ON P.ID_CONVOCATORIA = CONVO.ID_CONVOCATORIA
 	JOIN TIPO_CONVO AS TC ON TC.ID = CONVO.TIPO
 	JOIN INST_CONVO AS IC ON IC.ID = CONVO.INSTITUCION
-	join tematica as tm on tm.id_tematica = p.id_tematica
-	join apoyo as ap on  p.id_apoyo = ap.id_apoyo 
-	join tipo_apoyo as TP on TP.id_tipo_apoyo = ap.tipo
-	join estatus as Es on es.id_estatus = p.id_estatus
+	JOIN TEMATICA AS TM ON TM.ID_TEMATICA = P.ID_TEMATICA
+	JOIN APOYO AS AP ON P.ID_APOYO = AP.ID_APOYO
+	JOIN TIPO_APOYO AS TP ON TP.ID_TIPO_APOYO = AP.TIPO
+	JOIN ESTATUS AS ES ON ES.ID_ESTATUS = P.ID_ESTATUS
+	JOIN PROYECTOACADEMICO AS PYA ON PYA.ID_PROYECTO = P.ID_PROYECTO
+	JOIN ACADEMICO AS AC ON PYA.ID_ACADEMICO = AC.ID_ACADEMICO
     `;
-    
+
     const result = await pool.query(query);
     return result.rows;
   } catch (error) {
