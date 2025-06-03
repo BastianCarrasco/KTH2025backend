@@ -17,6 +17,9 @@ import Cuestionario from "./routes/Cuestionario";
 import respuestasQuest from "./routes/respuestasQuest";
 import fondos from "./routes/fondos";
 import Todo from "./routes/Todo";
+import Estatus from "./routes/Estatus";
+import Apoyo from "./routes/Apoyo";
+import Tematica from "./routes/Tematica";
 
 
 const app = express();
@@ -94,6 +97,13 @@ fondos.fondos(app);
 
 // todo
 Todo(app);
+// Estatus
+Estatus.Estatus(app);
+// Apoyo
+Apoyo.AllApoyo(app);
+// Tematica
+Tematica.AllTematicas(app);
+
 
 
 
