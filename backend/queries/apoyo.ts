@@ -1,8 +1,16 @@
 import { pool } from "../db";
 
 export const getApoyo = async () => {
-  const result = await pool.query(
-    "select apoyo.id_apoyo,apoyo.detalle,tipo_apoyo.tipo from apoyo join tipo_apoyo on apoyo.tipo=tipo_apoyo.id_tipo_apoyo order by TIPO_APOYO.TIPO"
-  );
+  const query = `
+    SELECT
+      APOYO.ID_APOYO,
+      APOYO.DETALLE,
+      TIPO_APOYO.TIPO
+    FROM APOYO
+    JOIN TIPO_APOYO ON APOYO.TIPO = TIPO_APOYO.ID_TIPO_APOYO
+    ORDER BY TIPO_APOYO.TIPO, APOYO.DETALLE
+  `;
+
+  const result = await pool.query(query);
   return result.rows;
 };
