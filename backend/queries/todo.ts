@@ -17,7 +17,7 @@ export const getTODO = async () => {
 	TP.TIPO AS TIPO_APOYO,
 	AP.DETALLE,
 	ES.TIPO as Estatus,
-	AC.NOMBRE as ACADEMICO,
+	CONCAT(AC.NOMBRE, ' ', AC.A_PATERNO) AS ACADEMICO,
 	pya.jefe
 FROM
 	PROYECTO AS P
