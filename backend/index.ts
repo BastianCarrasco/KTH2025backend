@@ -100,6 +100,8 @@ Todo(app);
 Estatus.Estatus(app);
 // Apoyo
 Apoyo.AllApoyo(app);
+Apoyo.crearApoyo(app);
+Apoyo.AllTags(app);
 // Tematica
 Tematica.AllTematicas(app);
 
