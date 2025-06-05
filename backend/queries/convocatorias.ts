@@ -31,7 +31,7 @@ export const getConvocatorias = async () => {
       CONVOCATORIA AS C
       JOIN TIPO_CONVO AS TC ON C.tipo = TC.id
       JOIN INST_CONVO AS IC ON C.institucion = IC.id
-    ORDER BY C.nombre ASC
+    ORDER BY tipo ASC
   `;
   const result = await pool.query(query);
   return result.rows;
