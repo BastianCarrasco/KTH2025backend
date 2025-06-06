@@ -19,7 +19,7 @@ import fondos from "./routes/fondos";
 import Todo from "./routes/Todo";
 import Estatus from "./routes/Estatus";
 import Apoyo from "./routes/Apoyo";
-import Tematica from "./routes/Tematica";
+import Tematicas from "./routes/Tematica";
 
 
 const app = express();
@@ -103,7 +103,11 @@ Apoyo.AllApoyo(app);
 Apoyo.crearApoyo(app);
 Apoyo.AllTags(app);
 // Tematica
-Tematica.AllTematicas(app);
+Tematicas.AllTematicas(app);
+Tematicas.NuevaTematica(app);
+Tematicas.ElminarTematica(app);
+Tematicas.updateTematicaHandler(app);
+
 
 
 
