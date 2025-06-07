@@ -66,6 +66,7 @@ Convocatorias.ALLConvocatorias(app);
 
 //Proyectos
 Proyectos.crear_proyecto(app);
+Proyectos.BorrarProyecto(app);
 
 //Unidad Academica
 UA.UAdata(app);

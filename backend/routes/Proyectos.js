@@ -1,5 +1,5 @@
 import express from "express";
-import { insertProyecto } from "../queries/proyectos";
+import { insertProyecto , eliminar_proyecto} from "../queries/proyectos";
 
 const crear_proyecto = (app) => {
   app.post("/proyectos", express.json(), async (req, res) => {
@@ -11,7 +11,7 @@ const crear_proyecto = (app) => {
         comentarios,
         unidad,
         id_convocatoria,
-        id_tematica,
+        id_Proyecto,
         id_apoyo,
         id_estatus,
         id_kth,
@@ -24,7 +24,7 @@ const crear_proyecto = (app) => {
         !comentarios || // ← Ahora es obligatorio
         !unidad ||
         !id_convocatoria ||
-        !id_tematica || // ← Obligatorio
+        !id_Proyecto || // ← Obligatorio
         !id_apoyo || // ← Obligatorio
         !id_estatus || // ← Obligatorio
         
@@ -43,7 +43,7 @@ const crear_proyecto = (app) => {
         comentarios,
         unidad,
         id_convocatoria,
-        id_tematica,
+        id_Proyecto,
         id_apoyo,
         id_estatus,
         id_kth,
@@ -61,6 +61,39 @@ const crear_proyecto = (app) => {
   });
 };
 
+const BorrarProyecto = (app) => {
+  app.delete("/proyectos/:id_proyecto", async (req, res) => {
+    try {
+      const { id_proyecto } = req.params;
+      if (!id_proyecto) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Falta el ID del proyecto" 
+        });
+      }
+      const result = await eliminar_proyecto(id_proyecto);
+      
+      // Dependiendo de tu base de datos, podrías necesitar verificar diferente
+      if (result.rowCount === 0) { // Para PostgreSQL
+        return res.status(404).json({ 
+          success: false, 
+          message: "Proyecto no encontrado" 
+        });
+      }
+      res.json({ success: true, message: "Proyecto eliminado correctamente" });
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Error al eliminar proyecto",
+        error: error.message
+      });
+    }
+  });
+};
+
+
 export default {
   crear_proyecto,
+  BorrarProyecto
 };
