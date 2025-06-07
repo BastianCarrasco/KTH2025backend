@@ -103,6 +103,7 @@ Estatus.Estatus(app);
 Apoyo.AllApoyo(app);
 Apoyo.crearApoyo(app);
 Apoyo.AllTags(app);
+Apoyo.borrartag(app);
 // Tematica
 Tematicas.AllTematicas(app);
 Tematicas.NuevaTematica(app);
