@@ -1,5 +1,5 @@
 import express from "express";
-import { insertProyecto , eliminar_proyecto} from "../queries/proyectos";
+import { insertProyecto, eliminar_proyecto } from "../queries/proyectos";
 
 export const crear_proyecto = (app) => {
   app.post("/proyectos", express.json(), async (req, res) => {
@@ -22,7 +22,8 @@ export const crear_proyecto = (app) => {
       if (!nombre || !academicos || academicos.length === 0) {
         return res.status(400).json({
           success: false,
-          message: "El nombre del proyecto y al menos un académico son obligatorios",
+          message:
+            "El nombre del proyecto y al menos un académico son obligatorios",
         });
       }
 
@@ -70,41 +71,39 @@ async function asociarAcademicos(idProyecto, academicos) {
   }
 }
 
-
-
 const BorrarProyecto = (app) => {
   app.delete("/proyectos/:id_proyecto", async (req, res) => {
     try {
       const { id_proyecto } = req.params;
       if (!id_proyecto) {
-        return res.status(400).json({ 
-          success: false, 
-          message: "Falta el ID del proyecto" 
+        return res.status(400).json({
+          success: false,
+          message: "Falta el ID del proyecto",
         });
       }
       const result = await eliminar_proyecto(id_proyecto);
-      
+
       // Dependiendo de tu base de datos, podrías necesitar verificar diferente
-      if (result.rowCount === 0) { // Para PostgreSQL
-        return res.status(404).json({ 
-          success: false, 
-          message: "Proyecto no encontrado" 
+      if (result.rowCount === 0) {
+        // Para PostgreSQL
+        return res.status(404).json({
+          success: false,
+          message: "Proyecto no encontrado",
         });
       }
       res.json({ success: true, message: "Proyecto eliminado correctamente" });
     } catch (error) {
       console.error("Error:", error);
-      res.status(500).json({ 
-        success: false, 
+      res.status(500).json({
+        success: false,
         message: "Error al eliminar proyecto",
-        error: error.message
+        error: error.message,
       });
     }
   });
 };
 
-
 export default {
   crear_proyecto,
-  BorrarProyecto
+  BorrarProyecto,
 };
