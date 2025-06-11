@@ -53,26 +53,34 @@ const createNewRespuestaCuestionario = (app) => {
     try {
       const { nombre_investigador, escuela, respuestas } = req.body;
 
-      if (!nombre_investigador || !escuela ) {
+      if (!nombre_investigador || !escuela) {
         return res.status(400).json({
           success: false,
-          message: "Todos los campos son requeridos (nombre_investigador, escuela, respuestas)",
+          message: "Todos los campos son requeridos (nombre_investigador, escuela)",
         });
       }
 
-      if (!Array.isArray(respuestas)) {
+      if (!Array.isArray(respuestas) || respuestas.length !== 9) { // Check array and length
         return res.status(400).json({
           success: false,
-          message: "Las respuestas deben ser un array",
+          message: "Las respuestas deben ser un array de 9 elementos.",
         });
       }
+
+      // Optional: Check if each item in the array is either a string or null
+       if (!respuestas.every(item => typeof item === 'string' || item === null || item === undefined)) {
+           return res.status(400).json({
+               success: false,
+               message: "Las respuestas deben ser cadenas de texto o nulas.",
+           });
+       }
 
       const nuevaRespuesta = await createRespuestaCuestionario(
         nombre_investigador,
         escuela,
         respuestas
       );
-      
+
       res.status(201).json({
         success: true,
         data: nuevaRespuesta,
