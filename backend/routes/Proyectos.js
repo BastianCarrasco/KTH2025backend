@@ -6,36 +6,27 @@ const crear_proyecto = (app) => {
     try {
       const {
         nombre,
-        monto,
-        fecha_postulacion,
-        comentarios,
-        unidad,
-        id_convocatoria,
-        id_Proyecto,
-        id_apoyo,
-        id_estatus,
-        id_kth,
+        monto = 0, // Valor por defecto si no se proporciona
+        fecha_postulacion = null,
+        comentarios = null,
+        unidad = null,
+        id_convocatoria = null,
+        id_tematica = null, // ← Corregido (antes era `id_Proyecto`, que parece incorrecto)
+        id_apoyo = null,
+        id_estatus = null,
+        id_kth = null,
+        academicos = [], // ← Campo obligatorio para académicos
       } = req.body;
 
-      if (
-        !nombre ||
-        !monto ||
-        !fecha_postulacion ||
-        !comentarios || // ← Ahora es obligatorio
-        !unidad ||
-        !id_convocatoria ||
-        !id_Proyecto || // ← Obligatorio
-        !id_apoyo || // ← Obligatorio
-        !id_estatus || // ← Obligatorio
-        
-        id_kth === undefined // ← Validación explícita para null/undefined
-      ) {
+      // Validación de campos obligatorios
+      if (!nombre || !academicos || academicos.length === 0) {
         return res.status(400).json({
           success: false,
-          message: "Faltan campos requeridos",
+          message: "El nombre del proyecto y al menos un académico son obligatorios",
         });
       }
 
+      // Insertar proyecto
       const nuevoProyecto = await insertProyecto({
         nombre,
         monto,
@@ -43,11 +34,16 @@ const crear_proyecto = (app) => {
         comentarios,
         unidad,
         id_convocatoria,
-        id_Proyecto,
+        id_tematica, // ← Corregido
         id_apoyo,
         id_estatus,
         id_kth,
       });
+
+      // Asociar académicos al proyecto (si hay)
+      if (academicos && academicos.length > 0) {
+        await asociarAcademicos(nuevoProyecto.id_proyecto, academicos);
+      }
 
       res.status(201).json({ success: true, data: nuevoProyecto });
     } catch (error) {
@@ -60,6 +56,21 @@ const crear_proyecto = (app) => {
     }
   });
 };
+
+// Función auxiliar para asociar académicos (si es necesario)
+async function asociarAcademicos(idProyecto, academicos) {
+  // Implementación dependiendo de tu base de datos
+  // Ejemplo con Knex:
+  for (const idAcademico of academicos) {
+    await knex("proyecto_academico").insert({
+      id_proyecto: idProyecto,
+      id_academico: idAcademico,
+      jefe: 1, // O algún otro valor por defecto
+    });
+  }
+}
+
+module.exports = crear_proyecto;
 
 const BorrarProyecto = (app) => {
   app.delete("/proyectos/:id_proyecto", async (req, res) => {
