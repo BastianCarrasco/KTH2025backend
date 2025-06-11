@@ -67,10 +67,15 @@ const createNewRespuestaCuestionario = (app) => {
         });
       }
 
+      // Normalizar respuestas: convertir null/undefined a ""
+      const respuestasNormalizadas = respuestas.map(respuesta => 
+        respuesta === null || respuesta === undefined ? "" : respuesta
+      );
+
       const nuevaRespuesta = await createRespuestaCuestionario(
         nombre_investigador,
         escuela,
-        respuestas
+        respuestasNormalizadas
       );
       
       res.status(201).json({
