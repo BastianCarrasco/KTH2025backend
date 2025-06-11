@@ -68,6 +68,7 @@ Convocatorias.ALLConvocatorias(app);
 Proyectos.crear_proyecto(app);
 Proyectos.BorrarProyecto(app);
 
+
 //Unidad Academica
 UA.UAdata(app);
 
@@ -78,6 +79,7 @@ Link.crear_ProyectoAcademico(app);
 //Academicos
 
 Profes.Academicos(app);
+Profes.POST_ACADEMICO(app);
 
 //Cuestionario
 Cuestionario.getAllCuestionarios(app);
