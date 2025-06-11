@@ -53,7 +53,7 @@ const createNewRespuestaCuestionario = (app) => {
     try {
       const { nombre_investigador, escuela, respuestas } = req.body;
 
-      if (!nombre_investigador || !escuela || !respuestas) {
+      if (!nombre_investigador || !escuela ) {
         return res.status(400).json({
           success: false,
           message: "Todos los campos son requeridos (nombre_investigador, escuela, respuestas)",
@@ -67,15 +67,10 @@ const createNewRespuestaCuestionario = (app) => {
         });
       }
 
-      // Normalizar respuestas: convertir null/undefined a ""
-      const respuestasNormalizadas = respuestas.map(respuesta => 
-        respuesta === null || respuesta === undefined ? "" : respuesta
-      );
-
       const nuevaRespuesta = await createRespuestaCuestionario(
         nombre_investigador,
         escuela,
-        respuestasNormalizadas
+        respuestas
       );
       
       res.status(201).json({
