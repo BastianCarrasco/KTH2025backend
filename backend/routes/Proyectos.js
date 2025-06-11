@@ -9,7 +9,7 @@ export const crear_proyecto = (app) => {
         monto = 0, // Valor por defecto si no se proporciona
         fecha_postulacion = null,
         comentarios = null,
-        unidad = null,
+        unidad,
         id_convocatoria = null,
         id_tematica = null, // ← Corregido (antes era `id_Proyecto`, que parece incorrecto)
         id_apoyo = null,
@@ -19,7 +19,7 @@ export const crear_proyecto = (app) => {
       } = req.body;
 
       // Validación de campos obligatorios
-      if (!nombre || !academicos || academicos.length === 0) {
+      if (!nombre || !unidad ) {
         return res.status(400).json({
           success: false,
           message:
