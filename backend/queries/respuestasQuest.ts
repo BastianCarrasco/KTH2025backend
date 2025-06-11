@@ -2,9 +2,9 @@ import { pool } from "../db";
 
 // CREATE - Crear una nueva respuesta de cuestionario
 export const createRespuestaCuestionario = async (
-  nombre_investigador: number,  // Cambiado a number
-  escuela: number,              // Cambiado a number
-  respuestas: string[]          // Array de respuestas (1-9) como strings
+  nombre_investigador: number,
+  escuela: number,
+  respuestas: (string | null)[]  // Array de respuestas (1-9) como strings o null
 ) => {
   const query = `
     INSERT INTO public.cuestionario_respuestas(
@@ -22,9 +22,9 @@ export const createRespuestaCuestionario = async (
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
     RETURNING *`;
   
-  // Asegurar que tenemos exactamente 9 respuestas
+  // Asegurar que tenemos exactamente 9 respuestas (pueden ser null)
   if (respuestas.length !== 9) {
-    throw new Error("Debe proporcionar exactamente 9 respuestas");
+    throw new Error("Debe proporcionar exactamente 9 respuestas (algunas pueden ser nulas)");
   }
   
   const values = [
