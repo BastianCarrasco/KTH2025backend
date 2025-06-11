@@ -1,7 +1,7 @@
 import express from "express";
 import { insertProyecto , eliminar_proyecto} from "../queries/proyectos";
 
-const crear_proyecto = (app) => {
+export const crear_proyecto = (app) => {
   app.post("/proyectos", express.json(), async (req, res) => {
     try {
       const {
@@ -70,7 +70,7 @@ async function asociarAcademicos(idProyecto, academicos) {
   }
 }
 
-module.exports = crear_proyecto;
+
 
 const BorrarProyecto = (app) => {
   app.delete("/proyectos/:id_proyecto", async (req, res) => {
