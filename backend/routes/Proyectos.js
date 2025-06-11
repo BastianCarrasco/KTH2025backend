@@ -15,7 +15,7 @@ export const crear_proyecto = (app) => {
         id_apoyo = null,
         id_estatus = null,
         id_kth = null,
-        academicos = [], // ← Campo obligatorio para académicos
+        
       } = req.body;
 
       // Validación de campos obligatorios
@@ -41,11 +41,6 @@ export const crear_proyecto = (app) => {
         id_kth,
       });
 
-      // Asociar académicos al proyecto (si hay)
-      if (academicos && academicos.length > 0) {
-        await asociarAcademicos(nuevoProyecto.id_proyecto, academicos);
-      }
-
       res.status(201).json({ success: true, data: nuevoProyecto });
     } catch (error) {
       console.error("Error:", error);
@@ -58,18 +53,7 @@ export const crear_proyecto = (app) => {
   });
 };
 
-// Función auxiliar para asociar académicos (si es necesario)
-async function asociarAcademicos(idProyecto, academicos) {
-  // Implementación dependiendo de tu base de datos
-  // Ejemplo con Knex:
-  for (const idAcademico of academicos) {
-    await knex("proyecto_academico").insert({
-      id_proyecto: idProyecto,
-      id_academico: idAcademico,
-      jefe: 1, // O algún otro valor por defecto
-    });
-  }
-}
+
 
 const BorrarProyecto = (app) => {
   app.delete("/proyectos/:id_proyecto", async (req, res) => {
