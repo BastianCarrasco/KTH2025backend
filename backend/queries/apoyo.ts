@@ -35,6 +35,19 @@ export const getTags = async () => {
   return result.rows;
 };
 
+export const insertarTags = async (detalle: string, tipo: number) => {
+  const query = `
+    INSERT INTO APOYO (DETALLE, TIPO)
+    VALUES ($1, $2)
+    RETURNING ID_APOYO, DETALLE, TIPO
+  `;
+
+  const result = await pool.query(query, [detalle, tipo]);
+  return result.rows[0];
+};
+
+
+
 
 export const ElminarTag = async (id_apoyo: number): Promise<boolean> => {
   const query = `

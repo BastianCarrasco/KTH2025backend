@@ -19,15 +19,15 @@ export const insertProyecto = async ({
     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id_proyecto`,
     [
       nombre,
-      monto,
-      fecha_postulacion,
-      comentarios,
+      monto || 0,
+      fecha_postulacion || null,
+      comentarios || null,
       unidad,
-      id_convocatoria,
-      id_tematica,
-      id_apoyo,
-      id_estatus,
-      id_kth,
+      id_convocatoria || null,
+      id_tematica || null,
+      id_apoyo || null,
+      id_estatus || null,
+      id_kth ||null,
     ]
   );
   return result.rows[0];
